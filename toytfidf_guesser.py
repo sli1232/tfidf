@@ -33,9 +33,9 @@ class ToyTfIdfGuesser(Guesser):
 
     """
 
-    def __init__(self, filename, max_vocab_size=15000,
+    def __init__(self, filename, max_vocab_size=10000,
                  tokenize_function=TreebankWordTokenizer().tokenize,
-                 normalize_function=lower, unk_cutoff=10):
+                 normalize_function=lower, unk_cutoff=8):
         self._vocab_size = -1
         self._max_vocab_size = max_vocab_size
         self._total_docs = 0
@@ -130,8 +130,7 @@ class ToyTfIdfGuesser(Guesser):
 
         return [[{"question": self.questions[best],
                  "guess": self.answers[best],
-                 "confidence": cosine[best]}] for best in bests]
-
+                 "confidence": cosine[i, best]}] for i, best in enumerate(bests)]
 
     def save(self):
         path = self.filename
